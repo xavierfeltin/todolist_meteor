@@ -11,8 +11,6 @@ if (Meteor.isClient) {
   Template.body.events({
     "submit .new-task": function (event) {
 
-      console.log(event);
-
       //Prevent default browser form submit
       event.preventDefault
 
@@ -28,5 +26,21 @@ if (Meteor.isClient) {
       //Clear form
       event.target.text.value = "";
     }
-  })
+  });
+
+  Template.task.events({
+
+    "click .toggle-checked": function () {
+
+      // Set the checked property to the opposite of its current value
+      Tasks.update(this._id, {
+        $set: {checked: ! this.checked}
+      });
+    },
+
+    "click .delete": function () {
+      Tasks.remove(this._id);
+    }
+
+  });
 }
